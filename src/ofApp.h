@@ -30,11 +30,23 @@ class ofApp : public ofBaseApp{
 		void windowResized(int w, int h);
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
+		
+		/* IMPORTANT POSITION OF SHARED POINTER */
+		shared_ptr<GuiApp> gui;
+
 
 		/*	MY METHODS	*/
 		void resetSys();
-
-		shared_ptr<GuiApp> gui;
+		void clearTrail();
+		void initMove();
+		int findCellByIndex(int, int, int);
+		int checkOccupancy(int);
+		void moveLeft();
+		void moveRight();
+		void moveUp();
+		void moveDown();
+		void moveIn();
+		void moveOut();
 
 		int numXGrids, numYGrids, numZGrids;
 		float gridLength, gridWidth, gridHeight;
@@ -44,8 +56,10 @@ class ofApp : public ofBaseApp{
 
 		ofEasyCam cam;
 
+		vector<Cell> cellTrail;
 		vector<Cell> CELLS;
 
 		vector<Agent> agentVec;
 		
+		Agent agent;
 };

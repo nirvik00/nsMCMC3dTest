@@ -4,12 +4,11 @@
 #include "ofMain.h"
 #include "ofxGui.h"
 
-class GuiApp:public ofBaseApp {
+class GuiApp : public ofBaseApp{
 public:
 	void setup();
 	void update();
 	void draw();
-
 	
 	ofParameterGroup parameters;
 
@@ -43,9 +42,7 @@ public:
 	ofParameter<ofColor> color2;
 	ofParameter<ofColor> color3;
 	ofParameter<ofColor> color4;
-
-
+	
 	ofxPanel gui;
-
 };
 

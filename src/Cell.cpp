@@ -17,6 +17,11 @@ Cell::Cell(int x, int y, int z, float l, float w, float h)
 	pts.push_back(ofVec3f(X + gridL, Y + gridW, Z + gridH));
 	pts.push_back(ofVec3f(X, Y + gridW, Z + gridH));
 
+
+}
+
+void Cell::setIndices(int cellId, int i, int j, int k) {
+	CellId = cellId; I = i; J = j; K = k;
 }
 
 float Cell::cellArea() {
@@ -24,7 +29,7 @@ float Cell::cellArea() {
 }
 
 void Cell::drawEdges() {
-	ofSetColor(0); glLineWidth(1);
+	ofSetColor(100,100,100, 255); glLineWidth(1);
 	ofDrawLine(pts[0], pts[1]);
 	ofDrawLine(pts[1], pts[2]);
 	ofDrawLine(pts[2], pts[3]);

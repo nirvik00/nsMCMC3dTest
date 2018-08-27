@@ -10,7 +10,7 @@ void GuiApp::setup()
 	parameters.add(numXGrids.set("numXGrids", 5, 1, 15));
 	parameters.add(numYGrids.set("numYGrids", 5, 1, 15));
 	parameters.add(numZGrids.set("numZGrids", 5, 1, 15));
-	parameters.add(wireframe.set("display WireFrame", false));
+	parameters.add(wireframe.set("display WireFrame", true));
 
 	parameters.add(isolate.set("ISOLATE LEVELS"));
 	parameters.add(isolateZXPlane.set("isolate ZX-Plane", false));
