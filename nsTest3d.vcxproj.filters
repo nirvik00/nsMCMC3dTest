@@ -40,9 +40,6 @@
     <ClCompile Include="src\GuiApp.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\Agent.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="src\Cell.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -99,9 +96,6 @@
       <Filter>addons\ofxGui\src</Filter>
     </ClInclude>
     <ClInclude Include="src\GuiApp.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Agent.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\Cell.h">

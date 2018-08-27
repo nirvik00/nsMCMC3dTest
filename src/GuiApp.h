@@ -22,26 +22,14 @@ public:
 	ofParameter<bool>wireframe;
 
 	ofParameter <string> isolate;
-	ofParameter<bool>isolateXYPlane;
-	ofParameter<bool>isolateYZPlane;
 	ofParameter<bool>isolateZXPlane;
-	ofParameter<int>XYToIsolate;
-	ofParameter<int>YZToIsolate;
 	ofParameter<int>ZXToIsolate;
-	
-	ofParameter <string> area;
-	ofParameter<float> agentArea1;
-	ofParameter<float> agentArea2;
-	ofParameter<float> agentArea3;
-	ofParameter<float> agentArea4;
-	ofParameter<float> agentArea5;
+
+	ofParameter <string> show;
+	ofParameter<bool>showGrid;
 
 	ofParameter <string> color;
 	ofParameter<ofColor> color0;
-	ofParameter<ofColor> color1;
-	ofParameter<ofColor> color2;
-	ofParameter<ofColor> color3;
-	ofParameter<ofColor> color4;
 	
 	ofxPanel gui;
 };

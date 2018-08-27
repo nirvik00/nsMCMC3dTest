@@ -4,7 +4,6 @@
 #include "GuiApp.h"
 
 #include "Cell.h"
-#include "Agent.h"
 
 #include <algorithm>
 #include <vector>
@@ -59,7 +58,5 @@ class ofApp : public ofBaseApp{
 		vector<Cell> cellTrail;
 		vector<Cell> CELLS;
 
-		vector<Agent> agentVec;
-		
-		Agent agent;
+		string MSG="";
 };

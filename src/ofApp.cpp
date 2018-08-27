@@ -24,6 +24,7 @@ int ofApp::checkOccupancy(int u) {
 
 void ofApp::clearTrail() {
 	cellTrail.clear();
+	MSG = "";
 }
 
 void ofApp::initMove() {
@@ -32,21 +33,21 @@ void ofApp::initMove() {
 	Cell a = CELLS[0];
 	cellTrail.push_back(a);
 	a.OCCUPIED = 1;
-	cout << " move initiated " << a.CellId << endl;
+	MSG += "\nmove initiated, initial cell=" + to_string(a.CellId);
 }
 
 void ofApp::moveLeft() {
 	Cell cell = cellTrail[cellTrail.size()-1];
 	int I = cell.I;	int J = cell.J; int K = cell.K;
 	int t= findCellByIndex(--I, J, K);
-	cout << " move LEFT init " << t << endl;
+	MSG += "\nmove  LEFT initiated";
 	if (t > -1 && checkOccupancy(t) == 0) {
 		cellTrail.push_back(CELLS[t]);
 		CELLS[t].OCCUPIED = 1;
-		cout << " move LEFT accepted " << t << endl;
+		MSG += "\nmove accepted, cell id=" + to_string(t);
 	}
 	else {
-		cout << " move LEFT NOT accepted " << t << endl;
+		MSG += "\nmove rejected";
 	}
 }
 
@@ -55,12 +56,14 @@ void ofApp::moveRight() {
 	int I = cell.I;	int J = cell.J; int K = cell.K;
 	int t = findCellByIndex(++I, J, K);
 	cout << " move RIGHT init " << t << endl;
-	if (t > -1	&& checkOccupancy(t) == 0) {
+	MSG += "\nmove  RIGHT initiated";
+	if (t > -1 && checkOccupancy(t) == 0) {
 		cellTrail.push_back(CELLS[t]);
 		CELLS[t].OCCUPIED = 1;
-		cout << " move RIGHT accepted " << t << endl;
-	} else {
-		cout << " move RIGHT NOT accepted " << t << endl;
+		MSG += "\nmove accepted, cell id=" + to_string(t);
+	}
+	else {
+		MSG += "\nmove rejected";
 	}
 }
 
@@ -69,13 +72,14 @@ void ofApp::moveUp() {
 	int I = cell.I;	int J = cell.J; int K = cell.K;
 	int t = findCellByIndex(I, ++J, K);
 	cout << " move UP init " << t << endl;
+	MSG += "\nmove  UP initiated";
 	if (t > -1 && checkOccupancy(t) == 0) {
 		cellTrail.push_back(CELLS[t]);
 		CELLS[t].OCCUPIED = 1;
-		cout << " move UP accepted " << t << endl;
+		MSG += "\nmove accepted, cell id=" + to_string(t);
 	}
 	else {
-		cout << " move UP NOT accepted " << t << endl;
+		MSG += "\nmove rejected";
 	}
 }
 
@@ -84,13 +88,14 @@ void ofApp::moveDown() {
 	int I = cell.I;	int J = cell.J; int K = cell.K;
 	int t = findCellByIndex(I, --J, K);
 	cout << " move DOWN init " << t << endl;
+	MSG += "\nmove  DOWN initiated";
 	if (t > -1 && checkOccupancy(t) == 0) {
 		cellTrail.push_back(CELLS[t]);
 		CELLS[t].OCCUPIED = 1;
-		cout << " move DOWN accepted " << t << endl;
+		MSG += "\nmove accepted, cell id=" + to_string(t);
 	}
 	else {
-		cout << " move DOWN NOT accepted " << t << endl;
+		MSG += "\nmove rejected";
 	}
 }
 
@@ -99,13 +104,14 @@ void ofApp::moveIn() {
 	int I = cell.I;	int J = cell.J; int K = cell.K;
 	int t = findCellByIndex(I, J, --K);
 	cout << " move IN init " << t << endl;
+	MSG += "\nmove  IN initiated";
 	if (t > -1 && checkOccupancy(t) == 0) {
 		cellTrail.push_back(CELLS[t]);
 		CELLS[t].OCCUPIED = 1;
-		cout << " move IN accepted " << t << endl;
+		MSG += "\nmove accepted, cell id=" + to_string(t);
 	}
 	else {
-		cout << " move IN NOT accepted " << t << endl;
+		MSG += "\nmove rejected";
 	}
 }
 
@@ -114,19 +120,19 @@ void ofApp::moveOut() {
 	int I = cell.I;	int J = cell.J; int K = cell.K;
 	int t = findCellByIndex(I, J, ++K);
 	cout << " move OUT init " << t << endl;
+	MSG += "\nmove  OUT initiated";
 	if (t > -1 && checkOccupancy(t) == 0) {
 		cellTrail.push_back(CELLS[t]);
 		CELLS[t].OCCUPIED = 1;
-		cout << " move OUT accepted " << t << endl;
+		MSG += "\nmove accepted, cell id=" + to_string(t);
 	}
 	else {
-		cout << " move OUT NOT accepted " << t << endl;
+		MSG += "\nmove rejected";
 	}
 }
 
 void ofApp::resetSys() {
-	CELLS.clear();
-	
+	CELLS.clear();	
 	int m = 0;
 	int x = 0; 
 	for (int i = 0; i < numXGrids; i++) {
@@ -159,6 +165,7 @@ void ofApp::setup(){
 	numZGrids = gui->numZGrids;
 	isolateZXPlane = gui->isolateZXPlane;
 	ZXToIsolate = gui -> ZXToIsolate;
+	MSG = "\npress 'a' 'A' to start ";
 	resetSys();
 }
 
@@ -170,8 +177,6 @@ void ofApp::update(){
 	numXGrids = gui->numXGrids;
 	numYGrids = gui->numYGrids;
 	numZGrids = gui->numZGrids;
-	XYToIsolate = gui->XYToIsolate;
-	YZToIsolate = gui->YZToIsolate;
 	ZXToIsolate = gui->ZXToIsolate;
 	isolateZXPlane = gui->isolateZXPlane;
 	ZXToIsolate = gui->ZXToIsolate;
@@ -186,19 +191,51 @@ void ofApp::draw(){
 	cam.begin();
 	int x = 0; 
 	
-	for (int i = 0; i < CELLS.size(); i++) {
-		if (isolateZXPlane == true) { CELLS[i].draw(ZXToIsolate,gui->wireframe); }
-		else { CELLS[i].draw(gui->wireframe); }
+	if (gui->showGrid == true) {
+		for (int i = 0; i < CELLS.size(); i++) {
+			if (isolateZXPlane == true) { CELLS[i].draw(ZXToIsolate, gui->wireframe); }
+			else { CELLS[i].draw(gui->wireframe); }
+		}
 	}
 	
+	
 	for (int i = 0; i < cellTrail.size(); i++) {
-		ofSetColor(0, 0, 255); ofFill();
-		cellTrail[i].draw(ofColor(0, 0, 255), false);
+		ofColor co = gui->color0; ofFill();
+		cellTrail[i].draw(co, false);
 	}
 	
 	int axisDim = gridLength*numXGrids*1.5;
 	ofDrawAxis(axisDim);
 	cam.end();
+
+	ofDisableDepthTest();
+
+	ofDrawBitmapStringHighlight(" Mouse Controls for 3d interface            ", 10, 20);
+	ofDrawBitmapStringHighlight("--------------------------------------------", 10, 40);
+	ofDrawBitmapStringHighlight(" Orbit: left-mouse button drag              ", 10, 60);
+	ofDrawBitmapStringHighlight(" (Drag down & left)                         ", 10, 80);
+	ofDrawBitmapStringHighlight(" (Axis : Red +X, Blue +Y, Green +Z          ", 10, 100);
+	ofDrawBitmapStringHighlight(" Pan: middle-mouse button drag              ", 10, 120);
+	ofDrawBitmapStringHighlight(" Zoom: scroll  / right-mouse drag           ", 10, 140);
+	ofDrawBitmapStringHighlight("Keyboard Controls                           ", 10, 180);
+	ofDrawBitmapStringHighlight("-----------------------------------------   ", 10, 200);
+	ofDrawBitmapStringHighlight("Press 'e' or 'E' to reset system            ", 10, 220);
+	ofDrawBitmapStringHighlight("Press 'c' or 'C' to clear cell trails       ", 10, 240);
+	ofDrawBitmapStringHighlight("Press 'a' or 'A' to reset init cell trail   ", 10, 260);
+	ofDrawBitmapStringHighlight("Press 'l' or 'L' to move left               ", 10, 280);
+	ofDrawBitmapStringHighlight("Press 'r' or 'R' to move right              ", 10, 300);
+	ofDrawBitmapStringHighlight("Press 'u' or 'U' to move up                 ", 10, 320);
+	ofDrawBitmapStringHighlight("Press 'd' or 'D' to move down               ", 10, 340);
+	ofDrawBitmapStringHighlight("Press 'i' or 'I' to move in                 ", 10, 360);
+	ofDrawBitmapStringHighlight("Press 'o' or 'O' to move out                ", 10, 380);
+	ofDrawBitmapStringHighlight("--------------------------------------------", 10, 440);
+	ofDrawBitmapStringHighlight("GRID: Left Window Controls                  ", 10, 460);
+	ofDrawBitmapStringHighlight("--------------------------------------------", 10, 480);
+	ofDrawBitmapStringHighlight("Sliders for various numerical parameters    ", 10, 500);
+	ofDrawBitmapStringHighlight("Boolean toggles for wireframe / color cells ", 10, 520);
+	ofDrawBitmapStringHighlight("Color picker R,G,B,A for user cell trail    ", 10, 540);
+	
+	ofSetColor(255,0,0); ofFill(); ofDrawBitmapString(MSG,1000,40);
 
 
 }
