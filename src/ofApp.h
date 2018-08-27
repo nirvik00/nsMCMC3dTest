@@ -45,9 +45,7 @@ class ofApp : public ofBaseApp{
 		ofEasyCam cam;
 
 		vector<Cell> CELLS;
+
+		vector<Agent> agentVec;
 		
 };
-
-
-
-

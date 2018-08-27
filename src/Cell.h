@@ -14,9 +14,17 @@ public:
 	vector<ofVec3f> pts;
 
 	Cell(int, int, int, float, float, float);
+	
+	void drawEdges();
+
 	void draw();
 	void draw(bool);
 	void draw(int, bool);
+	
+	void draw(ofColor, bool);
+	void draw(ofColor, int, bool);
+
+	float cellArea();
 
 };
 
